@@ -26,7 +26,7 @@ export const Home = () => {
             src={app_demo}
           />
           <div className="lg:mt-0 lg:ml-8">
-            <a href="#" className="flex items-center bg-green-500 text-white rounded-lg p-3 transition-#ransform duration-300 hover:scale-105 mt-4">
+            <a href="/" className="flex items-center bg-green-500 text-white rounded-lg p-3 transition-#ransform duration-300 hover:scale-105 mt-4">
               <span className="mr-2">Download APK</span>
               <img src={apk_icon} alt="APK Download Icon" className="h-8 w-8" />
             </a>

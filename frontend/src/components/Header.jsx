@@ -1,7 +1,6 @@
 import React from 'react';
 import { Logo } from 'components/Logo';
 import { GrSearch } from "react-icons/gr";
-import { IoCartOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
 export const Header = () => {
