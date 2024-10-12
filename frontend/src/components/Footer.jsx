@@ -10,7 +10,10 @@ export const Footer = () => {
           <div className='w-full lg:w-1/4 mb-6 lg:mb-0'>
             <h3 className='text-xl font-semibold mb-4'>About Us</h3>
             <p className='text-gray-300'>
-              We are your one-stop shop for all things electronics. From the latest gadgets to essential devices, we've got you covered with the best products and deals.
+              <p className='text-gray-300'>
+                We provide personalized home workout programs and expert fitness guidance. Whether you're looking to build strength, lose weight, or improve flexibility
+              </p>
+
             </p>
           </div>
 
@@ -45,7 +48,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className='mt-8 border-t border-gray-600 pt-4 text-center'>
-          <p className='text-gray-400'>&copy; 2024 LH Shop. All rights reserved.</p>
+          <p className='text-gray-400'>&copy; 2024 LH Gym Home. All rights reserved.</p>
         </div>
       </div>
     </footer>
