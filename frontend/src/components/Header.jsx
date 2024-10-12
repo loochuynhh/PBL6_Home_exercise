@@ -17,23 +17,20 @@ export const Header = () => {
         </div>
 
         {/* Navigation Links */}
-        <nav className='hidden lg:flex space-x-6 text-lg font-medium'>
-          <Link to="/products" className='relative text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out'>
+        <nav className='hidden lg:flex space-x-8 text-xl font-bold'>
+          <Link to="/products" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
             <span className="group relative cursor-pointer">
               Products
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
             </span>
           </Link>
-          <Link to="/workout" className='relative text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out'>
+          <Link to="/workout" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
             <span className="group relative cursor-pointer">
               Workouts
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
             </span>
           </Link>
-          <Link to="/exercise" className='relative text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out'>
+          <Link to="/exercise" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
             <span className="group relative cursor-pointer">
               Exercises
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
             </span>
           </Link>
         </nav>
@@ -44,7 +41,7 @@ export const Header = () => {
             <input
               type='text'
               placeholder='Search...'
-              className='text-sm sm:text-base h-9 sm:h-10 w-full rounded-full border border-gray-300 outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200 ease-in-out px-4'
+              className='text-sm sm:text-base h-9 sm:h-10 w-full rounded-full shadow-md focus:ring-2 focus:ring-blue-300 transition-all duration-200 ease-in-out px-4'
             />
             <button
               className='absolute inset-y-0 right-0 flex items-center justify-center w-10 h-9 sm:w-12 sm:h-10 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'
