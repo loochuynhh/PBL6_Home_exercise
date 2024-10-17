@@ -23,7 +23,7 @@ export const Header = () => {
               Products
             </span>
           </Link>
-          <Link to="/workout" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
+          <Link to="/workouts" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
             <span className="group relative cursor-pointer">
               Workouts
             </span>
