@@ -1,4 +1,4 @@
-const domain = `http://localhost:8080/`
+const domain = `http://192.168.80.246:8080/`
 
 const summaryAPI = {
     signup: {
@@ -12,6 +12,10 @@ const summaryAPI = {
     current_user: {
         method: "GET",
         url: `${domain}api/user-detail`
+    },
+    all_plan: {
+        method: "GET",
+        url: `${domain}public/api/plans/all`
     }
 }
 export default summaryAPI 

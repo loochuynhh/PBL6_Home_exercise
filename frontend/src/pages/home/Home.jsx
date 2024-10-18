@@ -4,7 +4,7 @@ import apk_icon from 'assets/other/apk_download_icon.png';
 
 export const Home = () => {
   return (
-    <div className="flex flex-col items-center my-auto mx-auto max-w-7xl py-8 lg:py-12 sm:px-6 lg:px-8 text-black dark:text-white">
+    <div className="container flex flex-col items-center text-black dark:text-white">
       {/* Phần hero */}
       <div className="relative isolate overflow-hidden px-6 py-4 lg:py-8">
         <div className="mx-auto text-center flex flex-col items-center gap-4">
@@ -35,20 +35,26 @@ export const Home = () => {
       </div>
 
       {/* Lý do chọn ứng dụng */}
-      <div className="bg-ocean-blue relative py-4 lg:py-8">
-        <h2 className="text-3xl font-bold text-center">Why Choose Our Home Gym App?</h2>
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+      <div className="relative py-8 lg:py-12">
+        <h2 className="text-4xl lg:text-5xl font-extrabold text-center tracking-tight">
+          Why Choose Our Home Gym App?
+        </h2>
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 lg:px-8">
           {[
-            { title: 'Personalized Workout Plans', desc: 'Whether you\'re a beginner or a seasoned athlete, our app tailors your workout plan to your fitness level, goals, and preferences.' },
-            { title: 'Progress Tracking', desc: 'Track your progress with detailed metrics, from calories burned to muscle gain, all in one place.' },
-            { title: 'Join the Community', desc: 'Connect with fitness enthusiasts worldwide, share tips, motivate each other, and stay committed together.' },
-            { title: 'Elite Trainer Access', desc: 'Get access to exclusive workout plans and tips from elite trainers who guide you every step of the way.' },
-            { title: 'Stay Motivated', desc: 'Daily reminders, challenges, and achievements keep you motivated to reach your fitness goals.' },
-            { title: 'Easy to Use', desc: 'Simple, intuitive design ensures that you can focus on your workouts without any distractions.' }
+            { title: 'Personalized Workout Plans', desc: 'Our app creates customized workout plans that align with your fitness level, goals, and preferences – perfect for both beginners and seasoned athletes.' },
+            { title: 'Progress Tracking', desc: 'Monitor your fitness journey with detailed metrics like calories burned, muscle gain, and more – all conveniently located in one place.' },
+            { title: 'Join the Community', desc: 'Engage with a global fitness community. Share tips, motivate each other, and stay on track with group challenges.' },
+            { title: 'Elite Trainer Access', desc: 'Gain insights and exclusive workout plans from top-tier trainers who guide you with expert tips and advice.' },
+            { title: 'Stay Motivated', desc: 'Daily challenges, reminders, and achievements to help you stay focused and motivated towards your fitness goals.' },
+            { title: 'Easy to Use', desc: 'Our intuitive design allows you to effortlessly navigate the app and concentrate solely on your workouts.' }
           ].map((item, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-lg p-6 transition-transform duration-300 hover:scale-105">
-              <h3 className="text-2xl font-semibold text-zinc-950 mb-4">{item.title}</h3>
-              <p className="text-base text-secondary-gray">{item.desc}</p>
+            <div key={index} className="bg-white rounded-xl shadow-xl p-8 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+                {item.title}
+              </h3>
+              <p className="text-base text-gray-600 leading-relaxed">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>

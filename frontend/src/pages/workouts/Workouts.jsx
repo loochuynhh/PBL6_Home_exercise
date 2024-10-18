@@ -1,56 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import summaryAPI from 'common';
 
 export const WorkoutPlansPage = () => {
   const [workoutPlans, setWorkoutPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [accessToken, setAccessToken] = useState("");
+  const itemsPerPage = 10;
 
   useEffect(() => {
-    const login = async () => {
-      // const options = {
-      //   method: 'POST',
-      //   headers: {Authorization: 'Bearer '},
-      //   body: '{"username":"Admin","password":"Admin"}',
-      // };
-
-      // try {
-      //   const response = await fetch('http://localhost:8080/api/auth/login', options);
-      //   if (!response.ok) {
-      //     throw new Error('Login failed: ' + response.status);
-      //   }
-      //   const data = await response.json();
-      //   const { accessToken } = data;
-      //   setAccessToken(accessToken);
-      // } catch (error) {
-      //   console.error('Error during login:', error);
-      // }
-      const options = {method: 'POST', body: '{"username":"Admin","password":"Admin"}'};
-      
-      fetch('http://localhost:8080/api/auth/login', options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-    };
-
     const fetchWorkoutPlans = async () => {
-      if (!accessToken) return;
-
-      const options = {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        },
-      };
-
       try {
-        const response = await fetch('http://localhost:8080/api/plans/all', options);
-        if (!response.ok) {
-          throw new Error('Error fetching plans: ' + response.status);
-        }
-        const data = await response.json();
-        setWorkoutPlans(data);
+        const response = await axios.get('/public/api/plans/all');
+        console.log(response)
+        setWorkoutPlans(response.data);
       } catch (error) {
         console.error('Error fetching workout plans:', error);
       } finally {
@@ -58,44 +21,34 @@ export const WorkoutPlansPage = () => {
       }
     };
 
-    login();
     fetchWorkoutPlans();
-
-  }, [accessToken]);
+  }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = workoutPlans.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = workoutPlans.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(workoutPlans.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  if (loading) return <p>Loading...</p>;
-
+  const totalPages = Math.ceil(workoutPlans.length / itemsPerPage);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="flex flex-col items-center my-auto mx-auto max-w-7xl py-8 lg:py-12 sm:px-6 lg:px-8 text-black dark:text-white">
-      {/* Heading */}
-      <div className="text-center">
-        <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight">
+    <div className="container text-black dark:text-white p-4">
+      <div className="text-center mb-8 animate__animated animate__fadeIn">
+        <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight text-blue-600 dark:text-blue-300 transition duration-300 ease-in-out transform hover:scale-110">
           LH Workout Plans
         </h2>
-        <p className="text-lg text-secondary-gray dark:text-zinc-400 max-w-xl italic mt-4">
+        <p className="text-lg text-gray-600 dark:text-zinc-400 max-w-xl italic mt-4 mx-auto px-2 transition duration-300 ease-in-out">
           Filter and refine your search to find the perfect workout plan for your fitness goals.
         </p>
       </div>
-
-      {/* Search Bar and Filters */}
-      <div className="flex gap-4 items-center mt-8 w-full max-w-lg">
+  
+      <div className="flex gap-4 items-center mt-8 w-full max-w-lg animate__animated animate__fadeIn">
         <form className="relative flex-grow">
           <input
             placeholder="Search workouts"
             aria-label="Search"
-            className="h-11 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+            className="h-12 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -110,10 +63,9 @@ export const WorkoutPlansPage = () => {
             />
           </svg>
         </form>
-
-        {/* Filters Button */}
+  
         <button
-          className="h-11 px-5 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform duration-300 ease-in-out"
+          className="h-12 px-5 py-2 bg-blue-600 dark:bg-blue-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           type="button"
         >
           <svg
@@ -133,13 +85,12 @@ export const WorkoutPlansPage = () => {
           <span className="ml-2 hidden sm:inline-block">FILTERS</span>
         </button>
       </div>
-
-      {/* Workouts Count and Sort */}
-      <div className="flex items-center justify-between w-full max-w-lg mt-6">
-        <span className="text-sm font-semibold text-main-black dark:text-main-black">
+  
+      <div className="flex items-center justify-between w-full max-w-lg mt-6 animate__animated animate__fadeIn">
+        <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
           <span className="text-base font-semibold">{workoutPlans.length}</span> WORKOUTS FOUND
         </span>
-
+  
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -155,47 +106,51 @@ export const WorkoutPlansPage = () => {
               d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
             />
           </svg>
-          <span className="text-xs font-semibold text-main-black hidden sm:block">SORT BY</span>
+          <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 hidden sm:block">SORT BY</span>
           <button
             type="button"
-            className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform duration-300 ease-in-out"
+            className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           >
             Sort
           </button>
         </div>
       </div>
-
-      {/* Workout Plans Table */}
+  
       <div className="flow-root">
-        <div className="rounded-lg bg-white mt-4 -mx-[--gutter] overflow-x-auto whitespace-nowrap">
-          <div className="inline-block min-w-full align-middle sm:px-[--gutter]">
-            <table className="min-w-full text-left text-sm/6">
-              <thead className="bg-jefit-blue-100 text-zinc-500 dark:text-zinc-400">
-                <tr>
-                  <th className="border-b border-b-zinc-950/10 px-4 py-2 font-medium">Plan Name</th>
-                  <th className="border-b border-b-zinc-950/10 px-4 py-2 font-medium">Status</th>
-                  <th className="border-b border-b-zinc-950/10 px-4 py-2 font-medium">Total Days</th>
-                  <th className="border-b border-b-zinc-950/10 px-4 py-2 font-medium">Rating</th>
-                  <th className="border-b border-b-zinc-950/10 px-4 py-2 font-medium">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((plan) => (
-                  <tr key={plan.id}>
-                    <td className="border-b border-zinc-950/5 py-4">{plan.name}</td>
-                    <td className="border-b border-zinc-950/5 py-4">{plan.status}</td>
-                    <td className="border-b border-zinc-950/5 py-4">{plan.totalDays}</td>
-                    <td className="border-b border-zinc-950/5 py-4">{plan.rating}</td>
-                    <td className="border-b border-zinc-950/5 py-4">{plan.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading ? (
+          <div className="flex justify-center items-center min-h-screen animate__animated animate__fadeIn">
+            <p className="bg-white dark:bg-gray-800 shadow-md rounded-lg px-4 py-2 text-lg text-black dark:text-white animate__animated animate__fadeIn">
+              Loading...
+            </p>
           </div>
-        </div>
+        ) : (
+          <div className="rounded-lg bg-white dark:bg-gray-800 mt-4 -mx-[--gutter] overflow-x-auto whitespace-nowrap shadow-md">
+            <div className="inline-block min-w-full align-middle sm:px-[--gutter]">
+              <table className="min-w-full text-left text-sm/6">
+                <thead className="bg-blue-50 dark:bg-blue-800 text-zinc-500 dark:text-zinc-400">
+                  <tr>
+                    <th className="border-b border-b-zinc-950/10 px-4 py-4 font-medium">Plan Name</th>
+                    <th className="border-b border-b-zinc-950/10 px-4 py-4 font-medium">Total Days</th>
+                    <th className="border-b border-b-zinc-950/10 px-4 py-4 font-medium">Rating</th>
+                    <th className="border-b border-b-zinc-950/10 px-4 py-4 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentItems.map((plan) => (
+                    <tr key={plan.id} className="hover:bg-blue-50 dark:hover:bg-blue-700 transition duration-300 ease-in-out">
+                      <td className="border-b border-zinc-950/5 py-4 px-4">{plan.name}</td>
+                      <td className="border-b border-zinc-950/5 py-4 px-4">{plan.totalDays}</td>
+                      <td className="border-b border-zinc-950/5 py-4 px-4">{plan.rating}</td>
+                      <td className="border-b border-zinc-950/5 py-4 px-4">{plan.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Pagination */}
+  
       <div className="flex justify-center mt-6">
         <nav>
           <ul className="flex space-x-2">
@@ -203,7 +158,9 @@ export const WorkoutPlansPage = () => {
               <li key={number}>
                 <button
                   onClick={() => paginate(number)}
-                  className={`px-3 py-1 rounded-lg ${currentPage === number ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'
+                  className={`px-3 py-1 rounded-lg ${number === currentPage
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105'
                     }`}
                 >
                   {number}
