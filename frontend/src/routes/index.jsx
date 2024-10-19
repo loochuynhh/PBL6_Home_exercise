@@ -4,6 +4,13 @@ import { Home } from 'pages/home/Home'
 import Login from 'pages/account/Login'
 import Signup from 'pages/account/Signup'
 import Profile from 'pages/user/Profile'
+import Dashboard from 'pages/admin/DashBoard'
+
+import { lazy } from 'react';
+import Loadable from 'components/Loadable';
+const Color = Loadable(lazy(() => import('pages/component-overview/color')));
+const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
+const Shadow = Loadable(lazy(() => import('pages/component-overview/shadows')));
 
 const router = createBrowserRouter([
     {
@@ -25,6 +32,22 @@ const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <Profile/>
+            },
+            {
+                path: 'admin',
+                element: <Dashboard/>
+            },
+            {
+                path: 'color',
+                element: <Color/>
+            },
+            {
+                path: 'typography',
+                element: <Typography/>
+            },
+            {
+                path: 'shadow',
+                element: <Shadow/>
             }
         ]
     }
