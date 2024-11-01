@@ -20,10 +20,10 @@ export const Footer = () => {
           <div className='pl-10 lg:pl-12 xl:pl-20 w-full mb-6'>
             <h3 className='text-xl font-semibold mb-4'>Policies</h3>
             <ul className='space-y'>
-              <li><a href='#' className='hover:underline hover:text-gray-300 transition-colors'>Warranty Policy</a></li>
-              <li><a href='#' className='hover:underline hover:text-gray-300 transition-colors'>Return Policy</a></li>
-              <li><a href='#' className='hover:underline hover:text-gray-300 transition-colors'>Delivery Policy</a></li>
-              <li><a href='#' className='hover:underline hover:text-gray-300 transition-colors'>Payment Policy</a></li>
+              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Warranty Policy</a></li>
+              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Return Policy</a></li>
+              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Delivery Policy</a></li>
+              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Payment Policy</a></li>
             </ul>
           </div>
 
