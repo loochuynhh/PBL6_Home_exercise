@@ -29,7 +29,7 @@ const Product = () => {
       <div className="flex flex-col justify-center items-center bg-cover h-full w-full bg-left-bottom">
         <div className="flex justify-between relative h-full pt-10 overflow-hidden w-full max-w-[600px] lg:max-w-7xl">
           <div className="p-10 min-w-[400px] flex flex-col">
-            <h1 className="bg-gradient-to-r from-white to-[#999999] text-transparent bg-clip-text font-semibold text-4xl lg:text-8xl">
+            <h1 className="bg-gradient-to-r from-gray-500 to-[#999999] text-transparent bg-clip-text font-semibold text-4xl lg:text-8xl">
               LH <br /> WORKOUT <br /> PLANNER
             </h1>
             <p className="bg-gradient-to-r from-[#A8A0A5] to-[#2A2C2E] text-transparent bg-clip-text font-semibold text-3xl lg:text-6xl">

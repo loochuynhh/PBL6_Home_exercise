@@ -35,7 +35,7 @@ export const ExercisePage = () => {
     <div className="container text-black dark:text-white p-4">
       <div className="container text-black dark:text-white p-4">
         <div className="text-center mb-8 animate__animated animate__fadeIn">
-          <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight text-blue-600 dark:text-blue-300 transition duration-300 ease-in-out transform hover:scale-110">
+          <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight dark:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110">
             Exercise List
           </h2>
           <p className="text-lg text-gray-600 dark:text-zinc-400 max-w-xl italic mt-4 mx-auto px-2 transition duration-300 ease-in-out">
@@ -65,7 +65,7 @@ export const ExercisePage = () => {
           </form>
 
           <button
-            className="h-12 px-5 py-2 bg-blue-600 dark:bg-blue-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+            className="h-12 px-5 py-2 dark:bg-blue-600 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
             type="button"
           >
             <svg
@@ -87,7 +87,7 @@ export const ExercisePage = () => {
         </div>
 
         <div className="flex items-center justify-between w-full max-w-lg mt-6 animate__animated animate__fadeIn">
-          <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+          <span className="text-sm font-semibold dark:text-gray-400">
             <span className="text-base font-semibold">{exercises.length}</span> EXERCISES FOUND
           </span>
         </div>

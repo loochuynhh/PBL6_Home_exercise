@@ -35,7 +35,7 @@ export const WorkoutPlansPage = () => {
   return (
     <div className="container text-black dark:text-white p-4">
       <div className="text-center mb-8 animate__animated animate__fadeIn">
-        <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight text-blue-600 dark:text-blue-300 transition duration-300 ease-in-out transform hover:scale-110">
+        <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight dark:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110">
           LH Workout Plans
         </h2>
         <p className="text-lg text-gray-600 dark:text-zinc-400 max-w-xl italic mt-4 mx-auto px-2 transition duration-300 ease-in-out">
@@ -65,7 +65,7 @@ export const WorkoutPlansPage = () => {
         </form>
   
         <button
-          className="h-12 px-5 py-2 bg-blue-600 dark:bg-blue-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+          className="h-12 px-5 py-2 dark:bg-blue-600 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           type="button"
         >
           <svg
@@ -87,7 +87,7 @@ export const WorkoutPlansPage = () => {
       </div>
   
       <div className="flex items-center justify-between w-full max-w-lg mt-6 animate__animated animate__fadeIn">
-        <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+        <span className="text-sm font-semibold dark:text-gray-400">
           <span className="text-base font-semibold">{workoutPlans.length}</span> WORKOUTS FOUND
         </span>
   
@@ -106,12 +106,12 @@ export const WorkoutPlansPage = () => {
               d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
             />
           </svg>
-          <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 hidden sm:block">SORT BY</span>
+          <span className="text-xs font-semibold text-gray-200 dark:text-gray-800 hidden sm:block">SORT BY</span>
           <button
             type="button"
-            className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+            className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           >
-            Sort
+            Default
           </button>
         </div>
       </div>
@@ -127,7 +127,7 @@ export const WorkoutPlansPage = () => {
           <div className="rounded-lg bg-white dark:bg-gray-800 mt-4 -mx-[--gutter] overflow-x-auto whitespace-nowrap shadow-md">
             <div className="inline-block min-w-full align-middle sm:px-[--gutter]">
               <table className="min-w-full text-left text-sm/6">
-                <thead className="bg-blue-50 dark:bg-blue-800 text-zinc-500 dark:text-zinc-400">
+                <thead className="bg-blue-400 dark:bg-blue-400 text-zinc-100 dark:text-black-800">
                   <tr>
                     <th className="border-b border-b-zinc-950/10 px-4 py-4 font-medium">Plan Name</th>
                     <th className="border-b border-b-zinc-950/10 px-4 py-4 font-medium">Total Days</th>
@@ -137,7 +137,7 @@ export const WorkoutPlansPage = () => {
                 </thead>
                 <tbody>
                   {currentItems.map((plan) => (
-                    <tr key={plan.id} className="hover:bg-blue-50 dark:hover:bg-blue-700 transition duration-300 ease-in-out">
+                    <tr key={plan.id} className="hover:bg-blue-400 dark:hover:bg-blue-400 transition duration-300 ease-in-out">
                       <td className="border-b border-zinc-950/5 py-4 px-4">{plan.name}</td>
                       <td className="border-b border-zinc-950/5 py-4 px-4">{plan.totalDays}</td>
                       <td className="border-b border-zinc-950/5 py-4 px-4">{plan.rating}</td>
