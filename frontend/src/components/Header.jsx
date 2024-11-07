@@ -1,39 +1,95 @@
-import React from 'react';
+import {
+  Avatar,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Box,
+  Flex
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
 import { Logo } from 'components/Logo';
-import { GrSearch } from "react-icons/gr";
-import { Link } from 'react-router-dom';
+import userIcon from 'assets/other/userIcon.png';
+import { GrSearch } from 'react-icons/gr';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../pages/account/AuthContext';
 
 export const Header = () => {
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for isLoggedIn
+  const [userName, setUserName] = useState('');
+  const { setIsLoggedIn: setAuthIsLoggedIn, setUserName: setAuthUserName } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // If accessToken is available, verify it and check user role
+    if (accessToken) {
+      const checkUserRole = async () => {
+        try {
+          const response = await axios.get('/api/account', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          if (response.data) {
+            setIsLoggedIn(true); // Set logged-in state
+            setUserName(response.data.username); // Set username
+            setAuthIsLoggedIn(true); // Use AuthContext to set global logged-in state
+            setAuthUserName(response.data.username); // Use AuthContext to set global username
+            navigate('/'); // Redirect to homepage
+          } else {
+            setIsLoggedIn(false);
+            setAuthIsLoggedIn(false);
+          }
+        } catch (error) {
+          console.error('Error checking user role:', error);
+          setIsLoggedIn(false);
+          setAuthIsLoggedIn(false);
+        }
+      };
+      checkUserRole();
+    } else {
+      setIsLoggedIn(false);
+      setAuthIsLoggedIn(false);
+    }
+  }, [accessToken, setAuthIsLoggedIn, setAuthUserName, navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    setIsLoggedIn(false); // Set logged-out state
+    setUserName(''); // Clear username
+    setAuthIsLoggedIn(false); // Use AuthContext to set logged-out state
+    setAuthUserName(''); // Clear username in global state
+    navigate('/login');
+  };
+
   return (
     <header className='h-[10vh] min-h-20 bg-white transition-colors shadow-lg'>
       <div className='h-full container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xxl'>
-        {/* Logo */}
         <div className='flex-shrink-0'>
           <Link to={"/"}>
             <Logo w={120} h={90} className='w-24 sm:w-28 lg:w-36' />
           </Link>
         </div>
 
-        {/* Navigation Links */}
         <nav className='hidden lg:flex space-x-8 font-bold'>
           <Link to="/product" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
-            <span className="group relative cursor-pointer">
-              Product
-            </span>
+            <span className="group relative cursor-pointer">Product</span>
           </Link>
           <Link to="/workouts" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
-            <span className="group relative cursor-pointer">
-              Workouts
-            </span>
+            <span className="group relative cursor-pointer">Workouts</span>
           </Link>
           <Link to="/exercises" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
-            <span className="group relative cursor-pointer">
-              Exercises
-            </span>
+            <span className="group relative cursor-pointer">Exercises</span>
           </Link>
         </nav>
 
-        {/* Search Bar */}
         <div className='flex-grow max-w-[500px] sm:max-w-[400px]'>
           <div className='relative'>
             <input
@@ -49,20 +105,42 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Sign Up and Cart Icons */}
-        <div className='flex items-center space-x-4 text-md'>
-          <Link to={"/login"}
-            className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out text-center flex items-center justify-center text-xs sm:text-base'
-          >
-            Login
-          </Link>
+        {isLoggedIn ? (
+          <Menu>
+            <span className="text-gray-700 font-semibold mr-1">{userName}</span>
+            <MenuButton as={Button} className="flex items-center">
+              <img src={userIcon} alt="User" className="w-12 h-12" />
+            </MenuButton>
 
-          <Link to={"/signup"}
-            className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out text-center flex items-center justify-center text-xs sm:text-base whitespace-nowrap'
-          >
-            Sign Up
-          </Link>
-        </div>
+            <MenuList className="shadow-lg mt-2 rounded-lg bg-white border-none" placement="top-end">
+              <div className="w-full mb-0">
+                <Text className="px-5 pt-4 pb-2 border-b border-gray-200 text-sm font-bold">
+                  👋&nbsp; Hey, {userName}
+                </Text>
+              </div>
+              <div className="flex flex-col p-2">
+                <MenuItem className="py-2 hover:bg-gray-100">
+                  <Text className="text-sm">Profile Settings</Text>
+                </MenuItem>
+                <MenuItem className="py-2 hover:bg-gray-100">
+                  <Text className="text-sm">Newsletter Settings</Text>
+                </MenuItem>
+                <MenuItem>
+                  <Text className="text-sm" onClick={handleLogout}>Log out</Text>
+                </MenuItem>
+              </div>
+            </MenuList>
+          </Menu>
+        ) : (
+          <div className='flex items-center space-x-4 text-md'>
+            <Link to="/login" className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'>
+              Login
+            </Link>
+            <Link to="/signup" className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'>
+              Sign Up
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

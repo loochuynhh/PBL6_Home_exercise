@@ -8,7 +8,6 @@ import Login from 'pages/account/Login'
 import Signup from 'pages/account/Signup'
 import Profile from 'pages/user/Profile'
 import Dashboard from 'pages/admin/DashBoard'
-
 import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
