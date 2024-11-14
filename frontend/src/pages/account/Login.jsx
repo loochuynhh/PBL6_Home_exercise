@@ -10,12 +10,13 @@ import { useAuth } from "./AuthContext";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const { setIsLoggedIn, setUserName } = useAuth();
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         try {
             const response = await axios.post("/api/auth/login", {
                 username,
@@ -31,9 +32,8 @@ const Login = () => {
                 draggable: true,
                 progress: undefined,
             });
-            setIsLoggedIn(true); 
+            setIsLoggedIn(true);
             setUserName(response.data.username);
-            // debugger
             navigate("/");
         } catch (error) {
             if (error.response) {
@@ -77,51 +77,75 @@ const Login = () => {
     return (
         <div className="limiter">
             <ToastContainer />
-            <div className="container-login100" style={{ backgroundImage: `url('/images/bg-01.jpg')` }}>
-                <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+            <div
+                className="container-login100 w-full min-h-screen bg-cover bg-center flex justify-center items-center"
+                style={{ backgroundImage: `url('/images/bg-01.jpg')` }}
+            >
+                <div className="wrap-login100 w-full max-w-md bg-white bg-opacity-80 p-10 rounded-lg shadow-xl">
                     <form className="login100-form validate-form" onSubmit={handleSubmit}>
-                        <span className="login100-form-title p-b-49">Login</span>
+                        <h2 className="login100-form-title text-3xl text-center font-bold text-gray-800 mb-8">
+                            Login
+                        </h2>
 
-                        <div className="wrap-input100">
-                            <span className="label-input100">Email or username</span>
+                        <div className="wrap-input100 mb-6">
+                            <label className="label-input100 text-sm text-gray-600 mb-2">Email or username</label>
                             <input
-                                className="input100"
+                                className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="Type your email or username"
                                 autoComplete="username"
                             />
-                            <span className="focus-input100" data-symbol="&#xf206;"></span>
                         </div>
 
-                        <div className="wrap-input100 validate-input m-t-23" data-validate="Password is required">
-                            <span className="label-input100">Password</span>
-                            <input
-                                className="input100"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Type your password"
-                                autoComplete="current-password"
-                            />
-                            <span className="focus-input100" data-symbol="&#xf190;"></span>
+                        <div className="wrap-input100 mb-6">
+                            <label className="label-input100 text-sm text-gray-600 mb-2">Password</label>
+                            <div className="relative">
+                                <input
+                                    className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Type your password"
+                                    autoComplete="current-password"
+                                />
+                                <span
+                                    className="absolute top-3 right-4 cursor-pointer"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? (
+                                        <i className="fas fa-eye-slash text-blue-500"></i>
+                                    ) : (
+                                        <i className="fas fa-eye text-blue-500"></i>
+                                    )}
+                                </span>
+                            </div>
                         </div>
 
-                        <div className="text-left p-t-8 p-b-31">
-                            <a href="/forgotPassword">Forgot password?</a>
+                        <div className="text-left mb-8">
+                            <a href="/forgotPassword" className="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
+                                Forgot password?
+                            </a>
                         </div>
 
                         <div className="container-login100-form-btn">
                             <div className="wrap-login100-form-btn">
-                                <div className="login100-form-bgbtn"></div>
-                                <button className="login100-form-btn" type="submit">Login</button>
+                                <button
+                                    className="login100-form-btn w-full bg-blue-500 text-white text-lg font-semibold py-3 rounded-lg shadow-lg transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500"
+                                    type="submit"
+                                >
+                                    Login
+                                </button>
                             </div>
                         </div>
 
-                        <div className="login-container">
-                            <p className="sign-up-text">Don't have an account?
-                                <Link to="/signup"> Sign up</Link>
+                        <div className="login-container text-center mt-8">
+                            <p className="sign-up-text text-sm text-gray-600">
+                                Don't have an account?
+                                <Link to="/signup" className="text-blue-600 hover:text-blue-800 transition duration-300">
+                                    Sign up
+                                </Link>
                             </p>
                         </div>
                     </form>

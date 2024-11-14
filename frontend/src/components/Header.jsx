@@ -30,9 +30,9 @@ export const Header = () => {
             },
           });
           if (response.data) {
-            setIsLoggedIn(true); 
-            setUserName(response.data.username); 
-            navigate('/'); 
+            setIsLoggedIn(true);
+            setUserName(response.data.username);
+            navigate('/');
           } else {
             setIsLoggedIn(false);
           }
@@ -49,8 +49,8 @@ export const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    setIsLoggedIn(false); 
-    setUserName(''); 
+    setIsLoggedIn(false);
+    setUserName('');
     setAccessToken('')
     navigate('/');
   };
@@ -64,7 +64,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        <nav className='hidden lg:flex space-x-8 font-bold'>
+        <nav className='lg:flex space-x-8 font-bold'>
           <Link to="/product" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
             <span className="group relative cursor-pointer">Product</span>
           </Link>
