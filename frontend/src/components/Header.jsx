@@ -6,11 +6,6 @@ import {
   MenuItem,
   MenuList,
   Text,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Box,
-  Flex
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
 import { Logo } from 'components/Logo';
@@ -22,13 +17,10 @@ import { useAuth } from '../pages/account/AuthContext';
 
 export const Header = () => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for isLoggedIn
-  const [userName, setUserName] = useState('');
-  const { setIsLoggedIn: setAuthIsLoggedIn, setUserName: setAuthUserName } = useAuth();
+  const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If accessToken is available, verify it and check user role
     if (accessToken) {
       const checkUserRole = async () => {
         try {
@@ -38,35 +30,29 @@ export const Header = () => {
             },
           });
           if (response.data) {
-            setIsLoggedIn(true); // Set logged-in state
-            setUserName(response.data.username); // Set username
-            setAuthIsLoggedIn(true); // Use AuthContext to set global logged-in state
-            setAuthUserName(response.data.username); // Use AuthContext to set global username
-            navigate('/'); // Redirect to homepage
+            setIsLoggedIn(true); 
+            setUserName(response.data.username); 
+            navigate('/'); 
           } else {
             setIsLoggedIn(false);
-            setAuthIsLoggedIn(false);
           }
         } catch (error) {
           console.error('Error checking user role:', error);
           setIsLoggedIn(false);
-          setAuthIsLoggedIn(false);
         }
       };
       checkUserRole();
     } else {
       setIsLoggedIn(false);
-      setAuthIsLoggedIn(false);
     }
-  }, [accessToken, setAuthIsLoggedIn, setAuthUserName, navigate]);
+  }, [setIsLoggedIn, setAccessToken, setUserName]);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    setIsLoggedIn(false); // Set logged-out state
-    setUserName(''); // Clear username
-    setAuthIsLoggedIn(false); // Use AuthContext to set logged-out state
-    setAuthUserName(''); // Clear username in global state
-    navigate('/login');
+    setIsLoggedIn(false); 
+    setUserName(''); 
+    setAccessToken('')
+    navigate('/');
   };
 
   return (
