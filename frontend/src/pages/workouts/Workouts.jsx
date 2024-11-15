@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import summaryAPI from 'common';
-
 export const WorkoutPlansPage = () => {
   const [workoutPlans, setWorkoutPlans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +31,7 @@ export const WorkoutPlansPage = () => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="container text-black dark:text-white p-4">
+    <div className="mx-[5%] text-black dark:text-white p-4">
       <div className="text-center mb-8 animate__animated animate__fadeIn">
         <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight dark:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110">
           LH Workout Plans
@@ -43,12 +41,12 @@ export const WorkoutPlansPage = () => {
         </p>
       </div>
   
-      <div className="flex gap-4 items-center mt-8 w-full max-w-lg animate__animated animate__fadeIn">
+      <div className="flex gap-4 items-center mt-8 max-w-lg animate__animated animate__fadeIn">
         <form className="relative flex-grow">
           <input
             placeholder="Search workouts"
             aria-label="Search"
-            className="h-12 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
+            className="h-12 w-full px-10 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +84,7 @@ export const WorkoutPlansPage = () => {
         </button>
       </div>
   
-      <div className="flex items-center justify-between w-full max-w-lg mt-6 animate__animated animate__fadeIn">
+      <div className="flex items-center justify-between max-w-lg mt-6 animate__animated animate__fadeIn">
         <span className="text-sm font-semibold dark:text-gray-400">
           <span className="text-base font-semibold">{workoutPlans.length}</span> WORKOUTS FOUND
         </span>

@@ -6,7 +6,7 @@ import Exercises from 'pages/exercises/Exercises'
 import Product from 'pages/product/Product'
 import Login from 'pages/account/Login'
 import Signup from 'pages/account/Signup'
-import Profile from 'pages/user/Profile'
+import Profile from 'pages/account/Profile'
 
 const router = createBrowserRouter([
     {

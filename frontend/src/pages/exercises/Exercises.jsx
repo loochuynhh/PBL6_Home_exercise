@@ -32,7 +32,7 @@ export const ExercisePage = () => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="container text-black dark:text-white p-4">
+    <div className="mx-[5%] text-black dark:text-white p-4">
       <div className="container text-black dark:text-white p-4">
         <div className="text-center mb-8 animate__animated animate__fadeIn">
           <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight dark:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110">
@@ -48,7 +48,7 @@ export const ExercisePage = () => {
             <input
               placeholder="Search exercises"
               aria-label="Search"
-              className="h-12 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
+              className="px-8 h-12 w-full py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"

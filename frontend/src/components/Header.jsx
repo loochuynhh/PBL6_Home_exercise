@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Menu,
   MenuButton,
@@ -16,11 +15,14 @@ import axios from 'axios';
 import { useAuth } from '../pages/account/AuthContext';
 
 export const Header = () => {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+  const [accessToken, setAccessToken] = useState();
   const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    setAccessToken(token);
+
     if (accessToken) {
       const checkUserRole = async () => {
         try {
@@ -32,7 +34,6 @@ export const Header = () => {
           if (response.data) {
             setIsLoggedIn(true);
             setUserName(response.data.username);
-            navigate('/');
           } else {
             setIsLoggedIn(false);
           }
@@ -45,13 +46,13 @@ export const Header = () => {
     } else {
       setIsLoggedIn(false);
     }
-  }, [setIsLoggedIn, setAccessToken, setUserName]);
+  }, [isLoggedIn, userName, navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     setIsLoggedIn(false);
     setUserName('');
-    setAccessToken('')
+    setAccessToken()
     navigate('/');
   };
 
@@ -93,25 +94,23 @@ export const Header = () => {
 
         {isLoggedIn ? (
           <Menu>
-            <span className="text-gray-700 font-semibold mr-1">{userName}</span>
-            <MenuButton as={Button} className="flex items-center">
-              <img src={userIcon} alt="User" className="w-12 h-12" />
-            </MenuButton>
-
-            <MenuList className="shadow-lg mt-2 rounded-lg bg-white border-none" placement="top-end">
-              <div className="w-full mb-0">
-                <Text className="px-5 pt-4 pb-2 border-b border-gray-200 text-sm font-bold">
+            <div className='lg:flex space-x-8 font-bold items-center justify-center'>
+              <span className="text-gray-700 pr-2 font-semibold">{userName}</span>
+              <MenuButton as={Button} className="pl-2 ml-0 flex items-center">
+                <img src={userIcon} alt="User" className="w-12 h-12" />
+              </MenuButton>
+            </div>
+            <MenuList className="w-[40vh] shadow-lg mt-2 rounded-lg bg-white border-none" placement="top-end">
+              <div className="mb-0">
+                <Text className="pr-5 pt-4 pb-2 border-b border-gray-200 text-sm font-bold">
                   👋&nbsp; Hey, {userName}
                 </Text>
               </div>
               <div className="flex flex-col p-2">
-                <MenuItem className="py-2 hover:bg-gray-100">
-                  <Text className="text-sm">Profile Settings</Text>
+                <MenuItem className="py-2 hover:bg-gray-100" onClick={() => navigate('/profile')}>
+                  <Text className="text-sm">Profile</Text>
                 </MenuItem>
                 <MenuItem className="py-2 hover:bg-gray-100">
-                  <Text className="text-sm">Newsletter Settings</Text>
-                </MenuItem>
-                <MenuItem>
                   <Text className="text-sm" onClick={handleLogout}>Log out</Text>
                 </MenuItem>
               </div>

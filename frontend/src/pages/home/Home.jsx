@@ -4,7 +4,7 @@ import apk_icon from 'assets/other/apk_download_icon.png';
 
 export const Home = () => {
   return (
-    <div className="container flex flex-col items-center text-black dark:text-white">
+    <div className="mx-[5%] flex flex-col items-center text-black dark:text-white">
       {/* Phần hero */}
       <div className="relative isolate overflow-hidden px-6 py-4 lg:py-8">
         <div className="mx-auto text-center flex flex-col items-center gap-4">

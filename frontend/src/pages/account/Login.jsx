@@ -10,19 +10,15 @@ import { useAuth } from "./AuthContext";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const { setIsLoggedIn, setUserName } = useAuth();
-
+    const [showPassword, setShowPassword] = useState(false);
+    const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("/api/auth/login", {
-                username,
-                password,
-            });
-            localStorage.setItem("accessToken", response.data.accessToken);
+            const { data } = await axios.post("/api/auth/login", { username, password });
+            localStorage.setItem("accessToken", data.accessToken);
             toast.success("Đăng nhập thành công!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -30,47 +26,22 @@ const Login = () => {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,
             });
             setIsLoggedIn(true);
-            setUserName(response.data.username);
+            setUserName(data.username);
             navigate("/");
         } catch (error) {
-            if (error.response) {
-                const errorMsg = error.response.data.message || error.response.data.error || "Lỗi không xác định";
-                console.error("Đăng nhập không thành công:", errorMsg);
-                toast.error(`Đăng nhập không thành công: ${errorMsg}`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            } else if (error.request) {
-                console.error("Không nhận được phản hồi từ server:", error.request);
-                toast.error("Không nhận được phản hồi từ server. Vui lòng thử lại sau.", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            } else {
-                console.error("Đã xảy ra lỗi:", error.message);
-                toast.error(`Đã xảy ra lỗi: ${error.message}`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            }
+            const errorMsg = error?.response?.data?.message || error?.response?.data?.error || error?.message || "Lỗi không xác định";
+            const toastMessage = error.response ? `Đăng nhập không thành công: ${errorMsg}` : errorMsg.includes("Không nhận được phản hồi") ? "Không nhận được phản hồi từ server. Vui lòng thử lại sau." : `Đã xảy ra lỗi: ${errorMsg}`;
+            console.error("Error:", errorMsg);
+            toast.error(toastMessage, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
@@ -88,7 +59,7 @@ const Login = () => {
                         </h2>
 
                         <div className="wrap-input100 mb-6">
-                            <label className="label-input100 text-sm text-gray-600 mb-2">Email or username</label>
+                            <label className="label-input100 text-sm text-gray-600 mb-2">Username</label>
                             <input
                                 className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
                                 type="text"
@@ -143,7 +114,7 @@ const Login = () => {
                         <div className="login-container text-center mt-8">
                             <p className="sign-up-text text-sm text-gray-600">
                                 Don't have an account?
-                                <Link to="/signup" className="text-blue-600 hover:text-blue-800 transition duration-300">
+                                <Link to="/signup" className="pl-2 text-blue-600 hover:text-blue-800 transition duration-300">
                                     Sign up
                                 </Link>
                             </p>

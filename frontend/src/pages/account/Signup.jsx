@@ -6,37 +6,55 @@ import FacebookAuth from "helpers/auth/FacebookAuth";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+  const [inputErrors, setInputErrors] = useState({
+    username: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert("Mật khẩu không khớp. Vui lòng kiểm tra lại.");
+    const errors = {
+      username: !username,
+      email: !email,
+      password: !password,
+      confirmPassword: !confirmPassword || password !== confirmPassword,
+    };
+
+    setInputErrors(errors);
+
+    if (Object.values(errors).includes(true)) {
+      toast.error("Vui lòng điền đầy đủ thông tin và kiểm tra mật khẩu.");
       return;
     }
 
     try {
-      const response = await axios.post("/api/register", {
-        username,
-        password,
-        email,
-      });
-      navigate("/login");
-    } catch (error) {
-      if (error.response) {
-        alert(`Đăng ký không thành công: ${error.response.data.message || 'Lỗi không xác định'}`);
-      } else if (error.request) {
-        alert("Không nhận được phản hồi từ server. Vui lòng thử lại sau.");
+      const response = await axios.post("/api/register", { username, email, password });
+      if (response.status === 200) {
+        toast.success("Đăng ký thành công! Vui lòng đăng nhập.", {
+          autoClose: 1500, 
+          onClose: () => {
+            navigate("/login");
+          }
+        });
       } else {
-        alert(`Đã xảy ra lỗi: ${error.message}`);
+        toast.error(`Đăng ký không thành công: ${response.data}`);
       }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || error.message || "Lỗi không xác định";
+      toast.error(`Đăng ký không thành công: ${errorMsg}`);
     }
   };
 
@@ -55,7 +73,7 @@ const Signup = () => {
             <div className="wrap-input100 mb-6">
               <label className="label-input100 text-sm text-gray-600 mb-2">Username</label>
               <input
-                className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-300"
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.username ? 'border-red-500' : 'border-gray-300'}`}
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -67,7 +85,7 @@ const Signup = () => {
             <div className="wrap-input100 mb-6">
               <label className="label-input100 text-sm text-gray-600 mb-2">Email</label>
               <input
-                className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-300"
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.email ? 'border-red-500' : 'border-gray-300'}`}
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -79,7 +97,7 @@ const Signup = () => {
             <div className="wrap-input100 mb-6 relative">
               <label className="label-input100 text-sm text-gray-600 mb-2">Password</label>
               <input
-                className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-300"
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.password ? 'border-red-500' : 'border-gray-300'}`}
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -87,7 +105,7 @@ const Signup = () => {
                 autoComplete="new-password"
               />
               <span
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                className="absolute pt-8 right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -101,18 +119,18 @@ const Signup = () => {
             <div className="wrap-input100 mb-6 relative">
               <label className="label-input100 text-sm text-gray-600 mb-2">Confirm Password</label>
               <input
-                className="input100 w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-300"
-                type={showPassword ? "text" : "password"}
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'}`}
+                type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm your password"
                 autoComplete="new-password"
               />
               <span
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-                onClick={() => setShowPassword(!showPassword)}
+                className="absolute pt-8 right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showPassword ? (
+                {showConfirmPassword ? (
                   <i className="fas fa-eye-slash text-blue-500"></i>
                 ) : (
                   <i className="fas fa-eye text-blue-500"></i>
@@ -131,7 +149,7 @@ const Signup = () => {
               </div>
             </div>
 
-            <div className="login-container text-center mt-8">
+            <div className="login-container text-center mt-4">
               <p className="sign-up-text text-sm text-gray-600">
                 Already have an account?{" "}
                 <Link
@@ -143,7 +161,7 @@ const Signup = () => {
               </p>
             </div>
 
-            <div className="login-container text-center mt-8">
+            {/* <div className="login-container text-center">
               <div className="divider">
                 <span className="line"></span>
                 <span className="or-text">Or continue with</span>
@@ -154,7 +172,7 @@ const Signup = () => {
                 <GoogleAuth />
                 <FacebookAuth />
               </div>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

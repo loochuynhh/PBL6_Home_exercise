@@ -3,7 +3,7 @@ import app_demo from 'assets/other/app_demo.png';
 
 const Product = () => {
   return (
-    <div className='flex flex-col justify-center items-center h-full w-full bg-cover bg-left-bottom pb-12 bg-gradient-to-b from-gray-900 via-gray-800 to-black'>
+    <div className='flex flex-col justify-center items-center h-full bg-cover bg-left-bottom pb-12 bg-gradient-to-b from-gray-900 via-gray-800 to-black'>
       <nav className="mx-auto flex w-full items-center justify-between p-5 lg:px-8 max-w-7xl h-16">
         <div className="flex justify-between items-center w-full">
           <a
@@ -13,7 +13,7 @@ const Product = () => {
             <span className="sr-only">LH Inc</span>
           </a>
           <button
-            className="py-2.5 px-5 text-lg font-bold border border-transparent bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="py-2.5 mr-16 px-5 text-lg font-bold border border-transparent bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             type="button"
           >
             Download APK
@@ -32,7 +32,7 @@ const Product = () => {
             </p>
           </div>
           <img
-            className="mr-18 h-5/6 min-h-[400px] w-auto transition-transform transform hover:scale-105 hover:shadow-2xl duration-300 ease-in-out animate-fade-in-right"
+            className="mr-20 h-5/6 min-h-[400px] w-auto transition-transform transform hover:scale-105 hover:shadow-2xl duration-300 ease-in-out animate-fade-in-right"
             src={app_demo}
             alt="Phone"
           />
