@@ -5,6 +5,7 @@ export const ExercisePage = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(''); // Thêm state cho tìm kiếm
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -23,12 +24,23 @@ export const ExercisePage = () => {
     fetchExercises();
   }, []);
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Cập nhật query tìm kiếm
+  };
+
+  // Lọc các bài tập theo tên hoặc mô tả
+  const filteredExercises = exercises.filter(
+    (exercise) =>
+      exercise.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      exercise.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const indexOfLastItem = currentPage * itemsPerPage;
-  const currentItems = exercises.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
+  const currentItems = filteredExercises.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const totalPages = Math.ceil(exercises.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredExercises.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
@@ -46,9 +58,11 @@ export const ExercisePage = () => {
         <div className="flex gap-4 items-center mt-8 w-full max-w-lg animate__animated animate__fadeIn">
           <form className="relative flex-grow">
             <input
+              value={searchQuery} // Liên kết giá trị tìm kiếm
+              onChange={handleSearchChange} // Cập nhật query khi người dùng gõ
               placeholder="Search exercises"
               aria-label="Search"
-              className="px-8 h-12 w-full py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
+              className="pl-10 px-8 h-12 w-full py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +102,7 @@ export const ExercisePage = () => {
 
         <div className="flex items-center justify-between w-full max-w-lg mt-6 animate__animated animate__fadeIn">
           <span className="text-sm font-semibold dark:text-gray-400">
-            <span className="text-base font-semibold">{exercises.length}</span> EXERCISES FOUND
+            <span className="text-base font-semibold">{filteredExercises.length}</span> EXERCISES FOUND
           </span>
         </div>
         <div className="flow-root">
@@ -103,8 +117,8 @@ export const ExercisePage = () => {
               {currentItems.map((exercise) => (
                 <div key={exercise.id} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-lg">
                   <div className="mb-2">
-                    <a href={exercise.videoPath} target="_blank" rel="noopener noreferrer">
-                      <img src={exercise.videoPath} alt={exercise.name} className="w-full h-48 object-cover rounded-md" />
+                    <a href={exercise.imagePath} target="_blank" rel="noopener noreferrer">
+                      <img src={exercise.imagePath} alt={exercise.name} className="w-full h-48 object-cover rounded-md" />
                     </a>
                   </div>
                   <h3 className="text-xl font-semibold mb-1">{exercise.name}</h3>

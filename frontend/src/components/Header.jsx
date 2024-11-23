@@ -15,20 +15,17 @@ import axios from 'axios';
 import { useAuth } from '../pages/account/AuthContext';
 
 export const Header = () => {
-  const [accessToken, setAccessToken] = useState();
   const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    setAccessToken(token);
-
-    if (accessToken) {
+    if (token) {
       const checkUserRole = async () => {
         try {
           const response = await axios.get('/api/account', {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           if (response.data) {
@@ -52,7 +49,6 @@ export const Header = () => {
     localStorage.removeItem('accessToken');
     setIsLoggedIn(false);
     setUserName('');
-    setAccessToken()
     navigate('/');
   };
 
@@ -61,7 +57,7 @@ export const Header = () => {
       <div className='h-full container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xxl'>
         <div className='flex-shrink-0'>
           <Link to={"/"}>
-            <Logo w={120} h={90} className='w-24 sm:w-28 lg:w-36' />
+            <Logo w={70} h={60} className='w-24 sm:w-28 lg:w-36' />
           </Link>
         </div>
 

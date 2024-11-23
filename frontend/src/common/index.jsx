@@ -1,4 +1,5 @@
 const domain = `http://192.168.80.246:8080/`
+export const azureBlobEndpoint = 'https://homeworkoutapplication1.blob.core.windows.net/homeworkoutapplication/';
 
 const summaryAPI = {
     signup: {
