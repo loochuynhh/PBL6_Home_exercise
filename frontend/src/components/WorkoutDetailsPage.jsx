@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { Token } from "@mui/icons-material";
 
 const WorkoutDetailsPage = () => {
   const { id } = useParams();
   const [exercises, setExercises] = useState([]);
+  const [exercisePlan, setExercisePlan] = useState([])
   const [loading, setLoading] = useState(true);
+  const accessToken = localStorage.getItem('accessToken')
 
   useEffect(() => {
     if (!id) {
@@ -15,9 +18,19 @@ const WorkoutDetailsPage = () => {
     }
     const fetchExercises = async () => {
       try {
-        const response = await axios.get(`/public/api/exercises/all?planId.equals=${id}`);
-        console.log(response);
-        setExercises(response.data);
+        const { data: response } = await axios.get(`/public/api/exercises/all?planId.equals=${id}`);
+        const { data: exerciseData } = await axios.get(`/public/api/exercises/all?planId.equals=${id}`);
+        const { data: exercisePlanData } = await axios.get(`/api/exercise-plans/all`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+
+        const listExerciseId = exerciseData.map(exercise => exercise.id)
+        const listExercisePlan = exercisePlanData.filter(ex_p => listExerciseId.includes(ex_p.exerciseId))
+        // console.log(listExercisePlan)
+        setExercises(response);
+        setExercisePlan(listExercisePlan)
       } catch (error) {
         console.error("Error fetching exercises:", error);
         toast.error("Failed to load exercises. Please try again.");
