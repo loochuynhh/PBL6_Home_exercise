@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "../../assets/css/account.css";
 import "../../assets/css/util.css";
-import GoogleAuth from "helpers/auth/GoogleAuth";
-import FacebookAuth from "helpers/auth/FacebookAuth";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
