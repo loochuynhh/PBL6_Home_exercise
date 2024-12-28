@@ -148,7 +148,7 @@ const Profile = () => {
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
             {/* First Name */}
             <div className="bg-gray-100 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
-              <p className="text-lg pb-2 text-gray-600">Họ:</p>
+              <p className="text-lg pb-2 text-gray-600">First Name</p>
               {isEditing ? (
                 <input
                   type="text"
@@ -164,7 +164,7 @@ const Profile = () => {
 
             {/* Last Name */}
             <div className="bg-gray-100 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
-              <p className="text-lg pb-2 text-gray-600">Tên:</p>
+              <p className="text-lg pb-2 text-gray-600">Last Name:</p>
               {isEditing ? (
                 <input
                   type="text"
@@ -211,7 +211,7 @@ const Profile = () => {
             </div>
             {/* Birthday */}
             <div className="bg-gray-100 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
-              <p className="text-lg pb-2 text-gray-600">Ngày sinh:</p>
+              <p className="text-lg pb-2 text-gray-600">Date of Birth:</p>
               {isEditing ? (
                 <input
                   type="date"
@@ -231,7 +231,7 @@ const Profile = () => {
 
             {/* Level */}
             <div className="bg-gray-100 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
-              <p className="text-lg pb-2 text-gray-600">Cấp độ:</p>
+              <p className="text-lg pb-2 text-gray-600">Level:</p>
               {isEditing ? (
                 <select
                   name="level"
@@ -257,14 +257,14 @@ const Profile = () => {
                 className="bg-blue-500 hover:bg-blue-600 font-semibold py-3 px-8 rounded-full shadow-md transition-transform transform hover:scale-105"
                 onClick={handleSaveChanges}
               >
-                Lưu thay đổi
+                Save change
               </button>
             ) : (
               <button
                 className="bg-green-500 hover:bg-green-600 font-semibold py-3 px-8 rounded-full shadow-md transition-transform transform hover:scale-105"
                 onClick={() => setIsEditing(true)}
               >
-                Chỉnh sửa hồ sơ
+                Update profile
               </button>
             )}
           </div>

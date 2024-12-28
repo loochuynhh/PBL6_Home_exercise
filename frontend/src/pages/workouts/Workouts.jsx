@@ -80,7 +80,7 @@ export const WorkoutPlansPage = () => {
     <div className="mx-[5%] text-black dark:text-white p-4">
       <div className="text-center mb-8 animate__animated animate__fadeIn">
         <h2 className="text-4xl font-extrabold sm:text-5xl leading-tight dark:text-blue-600 transition duration-300 ease-in-out transform hover:scale-110">
-          LH Workout Plans
+          Workout Plans List
         </h2>
         <p className="text-lg text-gray-600 dark:text-zinc-400 max-w-xl italic mt-4 mx-auto px-2 transition duration-300 ease-in-out">
           Filter and refine your search to find the perfect workout plan for your fitness goals.
