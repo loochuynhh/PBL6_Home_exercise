@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from '../../axiosConfig';
+import { useSearchParams } from "react-router-dom";
 
 export const WorkoutPlansPage = () => {
   const [workoutPlans, setWorkoutPlans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");  
+  const [currentPage, setCurrentPage] = useState(1); 
   const [filter, setFilter] = useState({ totalDays: '', rating: '' }); 
   const [showFilter, setShowFilter] = useState(false);  
-  const itemsPerPage = 10;
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState('default');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || '';
+  const itemsPerPage = 10;
+
   useEffect(() => {
     const fetchWorkoutPlans = async () => {
       try {
@@ -39,8 +42,8 @@ export const WorkoutPlansPage = () => {
   };
   const filteredWorkoutPlans = workoutPlans.filter((plan) => {
     const matchesSearchQuery =
-      plan.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      plan.description.toLowerCase().includes(searchQuery.toLowerCase());
+    plan.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    plan.description.toLowerCase().includes(searchQuery.toLowerCase());    
 
     const matchesTotalDays =
       (filter.totalDays === '20' && plan.totalDays < 20) ||
@@ -76,6 +79,10 @@ export const WorkoutPlansPage = () => {
     setWorkoutPlans(sortedPlans);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchParams({ search: e.target.value });
+  };
+  
   return (
     <div className="mx-[5%] text-black dark:text-white p-4">
       <div className="text-center mb-8 animate__animated animate__fadeIn">
@@ -94,7 +101,7 @@ export const WorkoutPlansPage = () => {
             aria-label="Search"
             className="h-12 w-full px-10 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}  
+            onChange={handleSearchChange}            
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +221,11 @@ export const WorkoutPlansPage = () => {
         </div>
       </div>
       {loading ? (
-        <p>Loading...</p>
+        <div className="flex justify-center items-center min-h-screen animate__animated animate__fadeIn">
+          <p className="bg-white dark:bg-gray-800 shadow-md rounded-lg px-4 py-2 text-lg text-black dark:text-white animate__animated animate__fadeIn">
+            Loading...
+          </p>
+        </div>
       ) : (
 
         <div className="rounded-lg bg-white dark:bg-gray-800 mt-4 -mx-[--gutter] overflow-x-auto whitespace-nowrap shadow-md">

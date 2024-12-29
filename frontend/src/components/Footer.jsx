@@ -5,7 +5,7 @@ export const Footer = () => {
   return (
     <footer className='bg-gray-800 text-white pt-6 pb-2 md:pt-8 md:pb-4'>
       <div className='mx-8 px-4 sm:px-6 lg:px-8'>
-        <div className='container grid grid-cols-4 gap-8'>
+        <div className='container grid grid-cols-3 gap-8'>
           {/* About Us */}
           <div className='col-span-2 w-full mb-6'>
             <h3 className='text-xl font-semibold mb-4'>About Us</h3>
@@ -16,19 +16,8 @@ export const Footer = () => {
             </p>
           </div>
 
-          {/* Policy Links */}
-          <div className='pl-10 lg:pl-12 xl:pl-20 w-full mb-6'>
-            <h3 className='text-xl font-semibold mb-4'>Policies</h3>
-            <ul className='space-y'>
-              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Warranty Policy</a></li>
-              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Return Policy</a></li>
-              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Delivery Policy</a></li>
-              <li><a href='/' className='hover:underline hover:text-gray-300 transition-colors'>Payment Policy</a></li>
-            </ul>
-          </div>
-
           {/* Social Media */}
-          <div className='pl-2 lg:pl-4 w-full mb-6'>
+          <div className='pl-6 lg:pl-8 w-full mb-6'>
             <h3 className='text-xl font-semibold mb-4'>Follow Us</h3>
             <div className='flex space-x-4'>
               <a href='https://facebook.com' target='_blank' rel='noopener noreferrer' className='text-gray-400 hover:text-white transition-colors'>

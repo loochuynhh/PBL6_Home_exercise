@@ -16,6 +16,7 @@ import axiosInstance from '../axiosConfig';
 export const Header = () => {
   const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -43,6 +44,37 @@ export const Header = () => {
       setIsLoggedIn(false);
     }
   }, [isLoggedIn, userName, navigate]);
+
+  const handleSearch = async () => {
+    try {
+      const [workoutResponse, exerciseResponse] = await Promise.all([
+        axiosInstance.get("/public/api/plans/all"),
+        axiosInstance.get("/public/api/exercises/all"),
+      ]);
+
+      const workoutResults = workoutResponse.data.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      const exerciseResults = exerciseResponse.data.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      if (workoutResults.length > 0) {
+        navigate(`/workouts?search=${searchQuery}`);
+      } else if (exerciseResults.length > 0) {
+        navigate(`/exercises?search=${searchQuery}`);
+      } else {
+        alert("No results found!");
+      }
+    } catch (error) {
+      console.error("Error searching:", error);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -77,9 +109,11 @@ export const Header = () => {
             <input
               type='text'
               placeholder='Search...'
+              onChange={(e) => setSearchQuery(e.target.value)}
               className='text-md sm:text-base h-9 sm:h-10 w-full rounded-full shadow-md focus:ring-2 focus:ring-blue-300 transition-all duration-200 ease-in-out px-4'
             />
             <button
+              onClick={handleSearch}
               className='absolute inset-y-0 right-0 flex items-center justify-center w-10 h-9 sm:w-12 sm:h-10 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'
             >
               <GrSearch />

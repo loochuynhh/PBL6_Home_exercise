@@ -1,18 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosConfig';
+import { useSearchParams } from "react-router-dom";
 
 export const ExercisePage = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(''); 
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [overlayTitle, setOverlayTitle] = useState("");
+  const [filterByVideo, setFilterByVideo] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || '';
   const itemsPerPage = 10;
+
+  const handleOpenOverlay = (url, title) => {
+    setVideoUrl(url);
+    setOverlayTitle(title);
+    setShowOverlay(true);
+  };
+
+  const handleCloseOverlay = () => {
+    setShowOverlay(false);
+    setVideoUrl("");
+    setOverlayTitle("");
+  };
 
   useEffect(() => {
     const fetchExercises = async () => {
       try {
         const response = await axiosInstance.get('/public/api/exercises/all');
-        console.log(response);
         setExercises(response.data);
       } catch (error) {
         console.error('Error fetching exercises:', error);
@@ -25,15 +42,21 @@ export const ExercisePage = () => {
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value); // Cập nhật query tìm kiếm
+    setSearchParams({ search: e.target.value });
   };
 
-  // Lọc các bài tập theo tên hoặc mô tả
-  const filteredExercises = exercises.filter(
-    (exercise) =>
-      exercise.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      exercise.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleFilterToggle = () => {
+    setFilterByVideo((prev) => !prev);
+  };
+
+  const filteredExercises = exercises.filter((exercise) => {
+    const matchesSearchQuery =
+      exercise.name.toLowerCase().includes(searchQuery.toLowerCase() || "") ||
+      exercise.description.toLowerCase().includes(searchQuery.toLowerCase() || "");
+    const matchesVideoPath = filterByVideo ? Boolean(exercise.videoPath) : true;
+
+    return matchesSearchQuery && matchesVideoPath;
+  });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const currentItems = filteredExercises.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
@@ -58,8 +81,8 @@ export const ExercisePage = () => {
         <div className="flex gap-4 items-center mt-8 w-full max-w-lg animate__animated animate__fadeIn">
           <form className="relative flex-grow">
             <input
-              value={searchQuery} // Liên kết giá trị tìm kiếm
-              onChange={handleSearchChange} // Cập nhật query khi người dùng gõ
+              value={searchQuery} 
+              onChange={handleSearchChange} 
               placeholder="Search exercises"
               aria-label="Search"
               className="pl-10 px-8 h-12 w-full py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out shadow-lg hover:shadow-xl"
@@ -81,6 +104,7 @@ export const ExercisePage = () => {
           <button
             className="h-12 px-5 py-2 dark:bg-blue-600 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-semibold text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-lg"
             type="button"
+            onClick={handleFilterToggle}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +120,7 @@ export const ExercisePage = () => {
                 d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
               />
             </svg>
-            <span className="ml-2 hidden sm:inline-block">FILTERS</span>
+            <span className="ml-2 hidden sm:inline-block">{filterByVideo ? 'Show All' : 'Filter Videos'}</span>
           </button>
         </div>
 
@@ -115,10 +139,14 @@ export const ExercisePage = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
               {currentItems.map((exercise) => (
-                <div key={exercise.id} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-lg">
+                <div
+                  key={exercise.id}
+                  className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-lg cursor-pointer"
+                  onClick={() => handleOpenOverlay(exercise.publicVideoUrl, exercise.name)}
+                >
                   <div className="mb-2">
-                    <a href={exercise.imagePath} target="_blank" rel="noopener noreferrer">
-                      <img src={exercise.imagePath} alt={exercise.name} className="w-full h-48 object-cover rounded-md" />
+                    <a target="_blank" rel="noopener noreferrer">
+                      <img src={exercise.publicImageUrl} alt={exercise.name} className="w-full h-48 object-cover rounded-md" />
                     </a>
                   </div>
                   <h3 className="text-xl font-semibold mb-1">{exercise.name}</h3>
@@ -130,6 +158,30 @@ export const ExercisePage = () => {
         </div>
       </div>
 
+      {showOverlay && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden w-11/12 max-w-3xl">
+            <div className="flex justify-between items-center p-4 border-b border-gray-300 dark:border-gray-700">
+              <h2 className="text-lg font-bold text-gray-800">
+                Sample video for {overlayTitle} exercise
+              </h2>
+              <button
+                onClick={handleCloseOverlay}
+                className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition duration-300"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-4">
+              <video
+                src={videoUrl}
+                controls
+                className="w-full h-auto rounded-md"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex justify-center mt-6">
         <nav>
           <ul className="flex space-x-2">
