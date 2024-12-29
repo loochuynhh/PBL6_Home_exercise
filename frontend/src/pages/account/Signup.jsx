@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "../../assets/css/account.css";
 import "../../assets/css/util.css";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import axiosInstance from '../../axiosConfig';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -39,7 +39,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post("/api/register", { username, email, password });
+      const response = await axiosInstance.post("/api/register", { username, email, password });
       if (response.status === 200) {
         toast.success("Đăng ký thành công! Vui lòng đăng nhập.", {
           autoClose: 1500, 

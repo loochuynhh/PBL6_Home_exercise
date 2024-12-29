@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "../../assets/css/account.css";
 import "../../assets/css/util.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "./AuthContext";
+import axiosInstance from '../../axiosConfig';
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -17,7 +17,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.post("/api/auth/login", { username, password });
+            const { data } = await axiosInstance.post("/api/auth/login", { username, password });
             localStorage.setItem("accessToken", data.accessToken);
             toast.success("Đăng nhập thành công!", {
                 position: "top-right",

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import userIcon from 'assets/other/userIcon.png';
 import { azureBlobEndpoint } from '../../common/index';
+import axiosInstance from '../../axiosConfig';
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const Profile = () => {
     const token = localStorage.getItem('accessToken');
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/account', {
+        const response = await axiosInstance.get('/api/account', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const user = response.data;
@@ -49,7 +49,7 @@ const Profile = () => {
     formData.append('file', profilePic);
 
     try {
-      const response = await axios.post('/api/update-avatar', formData, {
+      const response = await axiosInstance.post('/api/update-avatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ const Profile = () => {
   const handleSaveChanges = async () => {
     const token = localStorage.getItem('accessToken');
     try {
-      const response = await axios.put('/api/account', userData, {
+      const response = await axiosInstance.put('/api/account', userData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserData(response.data);

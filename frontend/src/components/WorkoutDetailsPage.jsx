@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { Token } from "@mui/icons-material";
-
+import axiosInstance from '../axiosConfig';
 const WorkoutDetailsPage = () => {
   const { id } = useParams();
   const [exercises, setExercises] = useState([]);
@@ -18,9 +17,9 @@ const WorkoutDetailsPage = () => {
     }
     const fetchExercises = async () => {
       try {
-        const { data: response } = await axios.get(`/public/api/exercises/all?planId.equals=${id}`);
-        const { data: exerciseData } = await axios.get(`/public/api/exercises/all?planId.equals=${id}`);
-        const { data: exercisePlanData } = await axios.get(`/api/exercise-plans/all`, {
+        const { data: response } = await axiosInstance.get(`/public/api/exercises/all?planId.equals=${id}`);
+        const { data: exerciseData } = await axiosInstance.get(`/public/api/exercises/all?planId.equals=${id}`);
+        const { data: exercisePlanData } = await axiosInstance.get(`/api/exercise-plans/all`, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }

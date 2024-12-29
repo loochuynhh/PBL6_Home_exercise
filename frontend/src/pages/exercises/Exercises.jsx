@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig';
 
 export const ExercisePage = () => {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(''); // Thêm state cho tìm kiếm
+  const [searchQuery, setSearchQuery] = useState(''); 
   const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        const response = await axios.get('/public/api/exercises/all');
+        const response = await axiosInstance.get('/public/api/exercises/all');
         console.log(response);
         setExercises(response.data);
       } catch (error) {

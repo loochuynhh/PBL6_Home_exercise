@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import axiosInstance from '../../axiosConfig';
 
 export const WorkoutPlansPage = () => {
   const [workoutPlans, setWorkoutPlans] = useState([]);
@@ -15,7 +15,7 @@ export const WorkoutPlansPage = () => {
   useEffect(() => {
     const fetchWorkoutPlans = async () => {
       try {
-        const response = await axios.get('/public/api/plans/all');
+        const response = await axiosInstance.get('/public/api/plans/all');
         console.log(response);
         setWorkoutPlans(response.data);
       } catch (error) {

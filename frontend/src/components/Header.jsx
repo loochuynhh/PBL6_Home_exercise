@@ -11,9 +11,8 @@ import { Logo } from 'components/Logo';
 import userIcon from 'assets/other/userIcon.png';
 import { GrSearch } from 'react-icons/gr';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../pages/account/AuthContext';
-
+import axiosInstance from '../axiosConfig';
 export const Header = () => {
   const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ export const Header = () => {
     if (token) {
       const checkUserRole = async () => {
         try {
-          const response = await axios.get('/api/account', {
+          const response = await axiosInstance.get('/api/account', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
