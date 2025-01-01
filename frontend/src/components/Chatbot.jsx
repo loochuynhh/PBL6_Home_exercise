@@ -31,12 +31,7 @@ const Chatbot = () => {
       const response = await axios.post('https://kind-sea-0ddf06010.4.azurestaticapps.net/api/chat', {
         userInput,
       });
-
       const botReply = response.data.reply || "Sorry, I didn't understand that.";
-      console.log('userInput: ',userInput);
-      console.log('response: ',response);
-      console.log('botReply: ',botReply);
-
       setMessages([...newMessages, { sender: 'bot', text: botReply }]);
     } catch (error) {
       console.error('Error fetching response:', error);
@@ -107,7 +102,9 @@ const Chatbot = () => {
                         : 'bg-white text-gray-800 shadow'
                     }`}
                   >
-                  <p className="text-sm text-white">{msg.text}</p>
+                  <p className={msg.sender === 'user' ? 'text-white' : 'text-gray-800'}>
+                    {msg.text}
+                  </p>
                 </div>
 
                 </motion.div>
