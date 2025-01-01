@@ -158,7 +158,7 @@ const Profile = () => {
                   className="text-left rounded-md text-gray-700 border-b-2 border-gray-300 focus:outline-none focus:border-primary-500 w-full py-2 px-4 transition-all ease-in-out duration-300"
                 />
               ) : (
-                <p className="text-lg text-gray-500">{userData.firstName || 'Điền họ của bạn'}</p>
+                <p className="text-lg text-gray-500">{userData.firstName || 'Fill in your first name'}</p>
               )}
             </div>
 
@@ -174,7 +174,7 @@ const Profile = () => {
                   className="text-left rounded-md text-gray-700 border-b-2 border-gray-300 focus:outline-none focus:border-primary-500 w-full py-2 px-4 transition-all ease-in-out duration-300"
                 />
               ) : (
-                <p className="text-lg text-gray-500">{userData.lastName || 'Điền tên của bạn'}</p>
+                <p className="text-lg text-gray-500">{userData.lastName || 'Fill in your last name'}</p>
               )}
             </div>
 
@@ -224,7 +224,7 @@ const Profile = () => {
                 />
               ) : (
                 <p className="text-lg font-medium">
-                  {userData.birthday ? new Date(userData.birthday).toLocaleDateString() : 'Chưa đặt năm sinh'}
+                  {userData.birthday ? new Date(userData.birthday).toLocaleDateString() : 'Year of birth not set'}
                 </p>
               )}
             </div>
@@ -244,7 +244,7 @@ const Profile = () => {
                   <option value="ADVANCED">ADVANCED</option>
                 </select>
               ) : (
-                <p className="text-lg font-semibold text-primary-700">{userData.level || 'Chưa xác định'}</p>
+                <p className="text-lg font-semibold text-primary-700">{userData.level || 'Not determined'}</p>
               )}
             </div>
 

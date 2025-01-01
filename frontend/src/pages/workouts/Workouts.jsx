@@ -13,7 +13,7 @@ export const WorkoutPlansPage = () => {
   const [sortBy, setSortBy] = useState('default');
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || '';
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
 
   useEffect(() => {
     const fetchWorkoutPlans = async () => {

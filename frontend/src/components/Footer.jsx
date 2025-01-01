@@ -36,7 +36,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className='mt-8 border-t border-gray-600 pt-4 text-center'>
-          <p className='text-gray-400'>&copy; 2024 LH Gym Home. All rights reserved.</p>
+          <p className='text-gray-400'>&copy; 2024 Gym Home. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -1,5 +1,5 @@
 import React from 'react';
-import app_demo from 'assets/other/app_demo.png';
+import app_demo from 'assets/other/app_UI.png';
 import apk_icon from 'assets/other/apk_download_icon.png';
 
 export const Home = () => {
@@ -9,10 +9,10 @@ export const Home = () => {
       <div className="relative isolate overflow-hidden px-6 py-4 lg:py-8">
         <div className="mx-auto text-center flex flex-col items-center gap-4">
           <h1 className="text-4xl font-extrabold sm:text-6xl leading-tight transition-colors duration-300 ease-in-out">
-            TRACK &amp; PLAN <br /> WORKOUTS
+            TRACK &amp; WORKOUT <br /> PLAN
           </h1>
           <p className="text-lg text-secondary-gray dark:text-zinc-400 max-w-xl italic">
-            Plan workouts, access elite plans, discover personalized metrics, and connect with the community.
+            workout plans, access elite plans, discover personalized metrics, and connect with the community.
           </p>
         </div>
       </div>
@@ -26,7 +26,7 @@ export const Home = () => {
             src={app_demo}
           />
           <div className="lg:mt-0 lg:ml-8">
-            <a href="/" className="flex items-center bg-green-500 text-white rounded-lg p-3 transition-#ransform duration-300 hover:scale-105 mt-4">
+            <a href="https://drive.google.com/file/d/1Q3dVOwOxYIwXGm1h1IUNixJdMZS73iue/view?fbclid=IwY2xjawHiZu9leHRuA2FlbQIxMAABHa9VL4-cNw7Bo2FyLNulx5GpRxCABXolxVvhlYpLrkhiiWlCkoy5YbI2HA_aem_9uK7BLfwRu5VXFbHnOtTVQ" className="flex items-center bg-green-500 text-white rounded-lg p-3 transition-#ransform duration-300 hover:scale-105 mt-4">
               <span className="mr-2">Download APK</span>
               <img src={apk_icon} alt="APK Download Icon" className="h-8 w-8" />
             </a>
