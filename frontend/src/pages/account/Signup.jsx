@@ -1,117 +1,181 @@
-import "../../assets/css/account.css"
-import "../../assets/css/util.css"
-
-import GoogleAuth from "helpers/auth/GoogleAuth"
-import FacebookAuth from "helpers/auth/FacebookAuth"
-import { useSignUpFormik } from "helpers/validate/Formik"
+import React, { useState } from "react";
+import "../../assets/css/account.css";
+import "../../assets/css/util.css";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosInstance from '../../axiosConfig';
 
 const Signup = () => {
-    const formik = useSignUpFormik()
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+  const [inputErrors, setInputErrors] = useState({
+    username: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
 
-    return ( 
-        <div className="limiter">
-            <div className="container-login100" style={{ backgroundImage: `url('/images/bg-01.jpg')` }}>
-                <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form className="login100-form validate-form" onSubmit={formik.handleSubmit}>
-                    <span className="login100-form-title p-b-49">Sign Up</span>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-                    <div className="wrap-input100">
-                        <span className="label-input100">Username</span>
-                        <input 
-                            className="input100" 
-                            type="text" 
-                            id="username"
-                            name="username"
-                            onChange={formik.handleChange}
-                            placeholder="Type your username"
-                            autoComplete="username"
-                        />
-                        <span className="focus-input100" data-symbol="&#xf206;"></span>
-                    </div>
+    const errors = {
+      username: !username,
+      email: !email,
+      password: !password,
+      confirmPassword: !confirmPassword || password !== confirmPassword,
+    };
 
-                    {formik.errors.username && (
-                        <p className="errorMsg">{formik.errors.username}</p>
-                    )}
+    setInputErrors(errors);
 
-                    <div className="wrap-input100 m-t-23">
-                        <span className="label-input100">Email</span>
-                        <input 
-                            className="input100" 
-                            type="email" 
-                            id="email"
-                            name="email"
-                            onChange={formik.handleChange}
-                            placeholder="Type your email"
-                            autoComplete="email"
-                        />
-                        <span className="focus-input100" data-symbol="&#9993;"></span>
-                    </div>
+    if (Object.values(errors).includes(true)) {
+      toast.error("Vui lòng điền đầy đủ thông tin và kiểm tra mật khẩu.");
+      return;
+    }
 
-                    {formik.errors.email && (
-                        <p className="errorMsg">{formik.errors.email}</p>
-                    )}
+    try {
+      const response = await axiosInstance.post("/api/register", { username, email, password });
+      if (response.status === 200) {
+        toast.success("Đăng ký thành công! Vui lòng đăng nhập.", {
+          autoClose: 1500, 
+          onClose: () => {
+            navigate("/login");
+          }
+        });
+      } else {
+        toast.error(`Đăng ký không thành công: ${response.data}`);
+      }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || error.message || "Lỗi không xác định";
+      toast.error(`Đăng ký không thành công: ${errorMsg}`);
+    }
+  };
 
-                    <div className="wrap-input100 m-t-23">
-                        <span className="label-input100">Password</span>
-                        <input 
-                            className="input100" 
-                            type="password"
-                            id="password"
-                            name="password"
-                            onChange={formik.handleChange}
-                            placeholder="Type your password"
-                            autoComplete="current-password"
-                        />
-                        <span className="focus-input100" data-symbol="&#xf190;"></span>
-                    </div>
+  return (
+    <div className="limiter">
+      <div
+        className="container-login100 w-full min-h-screen bg-cover bg-center flex justify-center items-center"
+        style={{ backgroundImage: `url('/images/bg-01.jpg')` }}
+      >
+        <div className="wrap-login100 w-full max-w-lg bg-white bg-opacity-80 p-10 rounded-lg shadow-xl">
+          <form className="login100-form validate-form" onSubmit={handleSubmit}>
+            <h2 className="login100-form-title text-3xl text-center font-bold text-blue-400 mb-8">
+              Sign Up
+            </h2>
 
-                    {formik.errors.password && (
-                        <p className="errorMsg">{formik.errors.password}</p>
-                    )}
-
-                    <div className="wrap-input100 m-t-23">
-                        <span className="label-input100">Confirm Password</span>
-                        <input 
-                            className="input100" 
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            onChange={formik.handleChange}
-                            placeholder="Confirm your password"
-                            autoComplete="current-confirmPassword"
-                        />
-                        <span className="focus-input100" data-symbol="&#xf190;"></span>
-                    </div>
-
-                    {formik.errors.confirmPassword && (
-                        <p className="errorMsg">{formik.errors.confirmPassword}</p>
-                    )}
-
-                    <div className="container-login100-form-btn m-t-30">
-                        <div className="wrap-login100-form-btn">
-                            <div className="login100-form-bgbtn"></div>
-                            <button className="login100-form-btn" type="submit">CREATE ACCOUNT</button>
-                        </div>
-                    </div>
-
-                    <div className="login-container">
-                        <div className="divider">
-                            <span className="line"></span>
-                            <span className="or-text">Or continue with</span>
-                            <span className="line"></span>
-                        </div>
-
-                        <div className="social-login">
-                            <GoogleAuth />
-
-                            <FacebookAuth />
-                        </div>
-                    </div>
-                </form>
-                </div>
+            <div className="wrap-input100 mb-6">
+              <label className="label-input100 text-sm text-gray-600 mb-2">Username</label>
+              <input
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.username ? 'border-red-500' : 'border-gray-300'}`}
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Type your username"
+                autoComplete="username"
+              />
             </div>
+
+            <div className="wrap-input100 mb-6">
+              <label className="label-input100 text-sm text-gray-600 mb-2">Email</label>
+              <input
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.email ? 'border-red-500' : 'border-gray-300'}`}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Type your email"
+                autoComplete="email"
+              />
+            </div>
+
+            <div className="wrap-input100 mb-6 relative">
+              <label className="label-input100 text-sm text-gray-600 mb-2">Password</label>
+              <input
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.password ? 'border-red-500' : 'border-gray-300'}`}
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Type your password"
+                autoComplete="new-password"
+              />
+              <span
+                className="absolute pt-8 right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <i className="fas fa-eye-slash text-blue-500"></i>
+                ) : (
+                  <i className="fas fa-eye text-blue-500"></i>
+                )}
+              </span>
+            </div>
+
+            <div className="wrap-input100 mb-6 relative">
+              <label className="label-input100 text-sm text-gray-600 mb-2">Confirm Password</label>
+              <input
+                className={`input100 w-full p-4 text-lg border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${inputErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'}`}
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your password"
+                autoComplete="new-password"
+              />
+              <span
+                className="absolute pt-8 right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <i className="fas fa-eye-slash text-blue-500"></i>
+                ) : (
+                  <i className="fas fa-eye text-blue-500"></i>
+                )}
+              </span>
+            </div>
+
+            <div className="container-login100-form-btn">
+              <div className="wrap-login100-form-btn">
+                <button
+                  className="login100-form-btn w-full bg-blue-400 text-white text-lg font-semibold py-3 rounded-lg shadow-lg transition duration-300 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                  type="submit"
+                >
+                  CREATE ACCOUNT
+                </button>
+              </div>
+            </div>
+
+            <div className="login-container text-center mt-4">
+              <p className="sign-up-text text-sm text-gray-600">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-blue-400 hover:text-blue-500 transition duration-300"
+                >
+                  Login
+                </Link>
+              </p>
+            </div>
+
+            {/* <div className="login-container text-center">
+              <div className="divider">
+                <span className="line"></span>
+                <span className="or-text">Or continue with</span>
+                <span className="line"></span>
+              </div>
+
+              <div className="social-login mt-4 flex justify-center gap-4">
+                <GoogleAuth />
+                <FacebookAuth />
+              </div>
+            </div> */}
+          </form>
         </div>
-    );
-}
- 
+      </div>
+    </div>
+  );
+};
+
 export default Signup;

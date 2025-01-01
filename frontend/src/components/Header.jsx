@@ -1,48 +1,119 @@
-import React from 'react';
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
 import { Logo } from 'components/Logo';
-import { GrSearch } from "react-icons/gr";
-import { Link } from 'react-router-dom';
-
+import userIcon from 'assets/other/userIcon.png';
+import { GrSearch } from 'react-icons/gr';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../pages/account/AuthContext';
+import axiosInstance from '../axiosConfig';
 export const Header = () => {
+  const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const checkUserRole = async () => {
+        try {
+          const response = await axiosInstance.get('/api/account', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.data) {
+            setIsLoggedIn(true);
+            setUserName(response.data.username);
+          } else {
+            setIsLoggedIn(false);
+          }
+        } catch (error) {
+          console.error('Error checking user role:', error);
+          setIsLoggedIn(false);
+        }
+      };
+      checkUserRole();
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [isLoggedIn, userName, navigate]);
+
+  const handleSearch = async () => {
+    try {
+      const [workoutResponse, exerciseResponse] = await Promise.all([
+        axiosInstance.get("/public/api/plans/all"),
+        axiosInstance.get("/public/api/exercises/all"),
+      ]);
+
+      const workoutResults = workoutResponse.data.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      const exerciseResults = exerciseResponse.data.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      if (workoutResults.length > 0) {
+        navigate(`/workouts?search=${searchQuery}`);
+      } else if (exerciseResults.length > 0) {
+        navigate(`/exercises?search=${searchQuery}`);
+      } else {
+        alert("No results found!");
+      }
+    } catch (error) {
+      console.error("Error searching:", error);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    setIsLoggedIn(false);
+    setUserName('');
+    navigate('/');
+  };
+
   return (
     <header className='h-[10vh] min-h-20 bg-white transition-colors shadow-lg'>
-      <div className='h-full container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center'>
-
-        {/* Logo */}
+      <div className='h-full container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xxl'>
         <div className='flex-shrink-0'>
           <Link to={"/"}>
-            <Logo w={120} h={90} className='w-24 sm:w-28 lg:w-36' />
+            <Logo w={70} h={60} className='w-24 sm:w-28 lg:w-36' />
           </Link>
         </div>
 
-        {/* Navigation Links */}
-        <nav className='hidden lg:flex space-x-8 text-xl font-bold'>
-          <Link to="/products" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
-            <span className="group relative cursor-pointer">
-              Products
-            </span>
+        <nav className='lg:flex space-x-8 font-bold'>
+          <Link to="/product" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
+            <span className="group relative cursor-pointer">Product</span>
           </Link>
-          <Link to="/workout" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
-            <span className="group relative cursor-pointer">
-              Workouts
-            </span>
+          <Link to="/workouts" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
+            <span className="group relative cursor-pointer">Workouts</span>
           </Link>
-          <Link to="/exercise" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
-            <span className="group relative cursor-pointer">
-              Exercises
-            </span>
+          <Link to="/exercises" className='relative text-gray-700 transition-all duration-300 ease-in-out px-2 py-1 rounded-xl shadow-none transform hover:scale-105'>
+            <span className="group relative cursor-pointer">Exercises</span>
           </Link>
         </nav>
 
-        {/* Search Bar */}
-        <div className='flex-grow max-w-[200px] sm:max-w-[250px]'>
+        <div className='flex-grow max-w-[500px] sm:max-w-[400px]'>
           <div className='relative'>
             <input
               type='text'
               placeholder='Search...'
-              className='text-sm sm:text-base h-9 sm:h-10 w-full rounded-full shadow-md focus:ring-2 focus:ring-blue-300 transition-all duration-200 ease-in-out px-4'
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className='text-md sm:text-base h-9 sm:h-10 w-full rounded-full shadow-md focus:ring-2 focus:ring-blue-300 transition-all duration-200 ease-in-out px-4'
             />
             <button
+              onClick={handleSearch}
               className='absolute inset-y-0 right-0 flex items-center justify-center w-10 h-9 sm:w-12 sm:h-10 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'
             >
               <GrSearch />
@@ -50,20 +121,40 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Sign Up and Cart Icons */}
-        <div className='flex items-center space-x-4 text-md sm:text-lg'>
-          <Link to={"/login"}
-            className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out text-center flex items-center justify-center text-xs sm:text-base'
-          >
-            Login
-          </Link>
-
-          <Link to={"/signup"}
-            className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out text-center flex items-center justify-center text-xs sm:text-base whitespace-nowrap'
-          >
-            Sign Up
-          </Link>
-        </div>
+        {isLoggedIn ? (
+          <Menu>
+            <div className='lg:flex space-x-8 font-bold items-center justify-center'>
+              <span className="text-gray-700 pr-2 font-semibold">{userName}</span>
+              <MenuButton as={Button} className="pl-2 ml-0 flex items-center">
+                <img src={userIcon} alt="User" className="w-12 h-12" />
+              </MenuButton>
+            </div>
+            <MenuList className="w-[40vh] shadow-lg mt-2 rounded-lg bg-white border-none" placement="top-end">
+              <div className="mb-0">
+                <Text className="pr-5 pt-4 pb-2 border-b border-gray-200 text-sm font-bold">
+                  👋&nbsp; Hey, {userName}
+                </Text>
+              </div>
+              <div className="flex flex-col p-2">
+                <MenuItem className="py-2 hover:bg-gray-100" onClick={() => navigate('/profile')}>
+                  <Text className="text-sm">Profile</Text>
+                </MenuItem>
+                <MenuItem className="py-2 hover:bg-gray-100">
+                  <Text className="text-sm" onClick={handleLogout}>Log out</Text>
+                </MenuItem>
+              </div>
+            </MenuList>
+          </Menu>
+        ) : (
+          <div className='flex items-center space-x-4 text-md'>
+            <Link to="/login" className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'>
+              Login
+            </Link>
+            <Link to="/signup" className='px-4 py-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-all duration-200 ease-in-out'>
+              Sign Up
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

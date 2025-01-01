@@ -22,15 +22,15 @@ export const useLoginFormik = () => {
                 ),
             password: Yup.string()
                 .required("Required")
-                .matches(
-                    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
-                    "Password must be 7-19 characters and contain at least one letter, one number and a special character"
-                ),
+                // .matches(
+                //     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
+                //     "Password must be 7-19 characters and contain at least one letter, one number and a special character"
+                // ),
         }),
 
-        onSubmit: (values) => {
-            console.log(values);
-        },
+        // onSubmit: (values) => {
+        //     console.log(values);
+        // },
     });
 };
 
