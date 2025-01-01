@@ -11,7 +11,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const { isLoggedIn, userName, setIsLoggedIn, setUserName } = useAuth();
+    const { setIsLoggedIn, setUserName } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -95,7 +95,7 @@ const Login = () => {
                         </div>
 
                         <div className="text-left mb-8">
-                            <a href="/forgotPassword" className="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
+                            <a href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
                                 Forgot password?
                             </a>
                         </div>

@@ -8,6 +8,7 @@ import Login from 'pages/account/Login'
 import Signup from 'pages/account/Signup'
 import Profile from 'pages/account/Profile'
 import WorkoutDetailsPage from '../components/WorkoutDetailsPage'
+import ForgotPassword from 'pages/forgotPass/ForgotPassword'
 const router = createBrowserRouter([
     {
         path: "/",
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
               path: "workouts/:id", 
               element: <WorkoutDetailsPage />
             },
+            {
+                path: "forgot-password",
+                element: <ForgotPassword/>
+            }
         ]
     }
 ])
