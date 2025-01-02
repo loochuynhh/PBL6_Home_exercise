@@ -139,8 +139,8 @@ export const Header = () => {
                 <MenuItem className="py-2 hover:bg-gray-100" onClick={() => navigate('/profile')}>
                   <Text className="text-sm">Profile</Text>
                 </MenuItem>
-                <MenuItem className="py-2 hover:bg-gray-100">
-                  <Text className="text-sm" onClick={handleLogout}>Log out</Text>
+                <MenuItem className="py-2 hover:bg-gray-100" onClick={handleLogout}>
+                  <Text className="text-sm">Log out</Text>
                 </MenuItem>
               </div>
             </MenuList>

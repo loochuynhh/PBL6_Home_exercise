@@ -18,41 +18,49 @@ const ForgotPassword = () => {
                 onClose: () => {
                     navigate('/login');
                 }
-            })
+            });
         } catch (error) {
             console.error("Error API forgot password", error);
 
             toast.error('Username does not exist !!!', {
                 autoClose: 3000
-            })
+            });
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
-        <div className="flex flex-col h-screen items-center justify-around">
-            <h1 className="text-5xl font-bold font-heading">Forgot Password</h1>
-            <div className="flex w-1/5 justify-between items-center">
-                <label className="text-xl mr-2 mt-2">Username:</label>
-                <input
-                    type="text"
-                    placeholder="Enter your username"
-                    className="border border-gray-300 ml-2 p-2"
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+        <div className="flex flex-col h-screen items-center justify-center bg-white">
+            <div className="bg-gray-100 shadow-xl rounded-lg p-10 w-full max-w-lg text-gray-800">
+                <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Forgot Password</h1>
+                <div className="mb-6">
+                    <label className="block text-sm font-medium mb-2 text-gray-700" htmlFor="username">Username</label>
+                    <input
+                        id="username"
+                        type="text"
+                        placeholder="Enter your username"
+                        className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <button
+                    className={`w-full py-3 px-4 rounded-lg text-white font-medium ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'} transition-all duration-300`}
+                    onClick={handleForgotPassword}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <div className="flex justify-center items-center">
+                            <span className="loader ease-linear rounded-full border-4 border-t-4 border-gray-300 h-6 w-6 mr-2"></span>
+                            Processing...
+                        </div>
+                    ) : (
+                        'Get New Password'
+                    )}
+                </button>
             </div>
-            <button
-                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 flex items-center"
-                onClick={handleForgotPassword}
-            >
-                {loading
-                    ? <>Please wait <span className="loader ml-2"></span></>
-                    : 'Get new password'
-                }
-            </button>
         </div>
     );
-}
+};
 
 export default ForgotPassword;
