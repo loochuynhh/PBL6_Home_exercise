@@ -1,10 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from "App"
 import { Home } from 'pages/home/Home'
+import Workouts from 'pages/workouts/Workouts'
+import Exercises from 'pages/exercises/Exercises'
+import Product from 'pages/product/Product'
 import Login from 'pages/account/Login'
 import Signup from 'pages/account/Signup'
-import Profile from 'pages/user/Profile'
-
+import Profile from 'pages/account/Profile'
+import WorkoutDetailsPage from '../components/WorkoutDetailsPage'
+import ForgotPassword from 'pages/forgotPass/ForgotPassword'
 const router = createBrowserRouter([
     {
         path: "/",
@@ -13,6 +17,18 @@ const router = createBrowserRouter([
             {
                 path: "",
                 element: <Home/>
+            },
+            {
+                path: "product",
+                element: <Product/>
+            },
+            {
+                path: "workouts",
+                element: <Workouts/>
+            },
+            {
+                path: "exercises",
+                element: <Exercises/>
             },
             {
                 path: 'login',
@@ -25,6 +41,14 @@ const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <Profile/>
+            },
+            {
+              path: "workouts/:id", 
+              element: <WorkoutDetailsPage />
+            },
+            {
+                path: "forgot-password",
+                element: <ForgotPassword/>
             }
         ]
     }

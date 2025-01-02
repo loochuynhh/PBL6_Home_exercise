@@ -34,3 +34,5 @@ frontend/coverage/
 backend/.pnp
 backend.pnp.js
 backend/coverage/
+
+frontend/.venv

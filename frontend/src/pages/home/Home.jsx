@@ -1,18 +1,18 @@
 import React from 'react';
-import app_demo from 'assets/other/app_demo.png';
+import app_demo from 'assets/other/app_UI.png';
 import apk_icon from 'assets/other/apk_download_icon.png';
 
 export const Home = () => {
   return (
-    <div className="flex flex-col items-center my-auto mx-auto max-w-7xl py-8 lg:py-12 sm:px-6 lg:px-8 text-black dark:text-white">
+    <div className="mx-[5%] flex flex-col items-center text-black dark:text-white">
       {/* Phần hero */}
       <div className="relative isolate overflow-hidden px-6 py-4 lg:py-8">
         <div className="mx-auto text-center flex flex-col items-center gap-4">
           <h1 className="text-4xl font-extrabold sm:text-6xl leading-tight transition-colors duration-300 ease-in-out">
-            TRACK &amp; PLAN <br /> WORKOUTS
+            TRACK &amp; WORKOUT <br /> PLAN
           </h1>
           <p className="text-lg text-secondary-gray dark:text-zinc-400 max-w-xl italic">
-            Plan workouts, access elite plans, discover personalized metrics, and connect with the community.
+            workout plans, access elite plans, discover personalized metrics, and connect with the community.
           </p>
         </div>
       </div>
@@ -26,7 +26,7 @@ export const Home = () => {
             src={app_demo}
           />
           <div className="lg:mt-0 lg:ml-8">
-            <a href="/" className="flex items-center bg-green-500 text-white rounded-lg p-3 transition-#ransform duration-300 hover:scale-105 mt-4">
+            <a href="https://drive.google.com/file/d/1Q3dVOwOxYIwXGm1h1IUNixJdMZS73iue/view?fbclid=IwY2xjawHiZu9leHRuA2FlbQIxMAABHa9VL4-cNw7Bo2FyLNulx5GpRxCABXolxVvhlYpLrkhiiWlCkoy5YbI2HA_aem_9uK7BLfwRu5VXFbHnOtTVQ" className="flex items-center bg-green-500 text-white rounded-lg p-3 transition-#ransform duration-300 hover:scale-105 mt-4">
               <span className="mr-2">Download APK</span>
               <img src={apk_icon} alt="APK Download Icon" className="h-8 w-8" />
             </a>
@@ -35,20 +35,26 @@ export const Home = () => {
       </div>
 
       {/* Lý do chọn ứng dụng */}
-      <div className="bg-ocean-blue relative py-4 lg:py-8">
-        <h2 className="text-3xl font-bold text-center">Why Choose Our Home Gym App?</h2>
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+      <div className="relative py-8 lg:py-12">
+        <h2 className="text-4xl lg:text-5xl font-extrabold text-center tracking-tight">
+          Why Choose Our Home Gym App?
+        </h2>
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 lg:px-8">
           {[
-            { title: 'Personalized Workout Plans', desc: 'Whether you\'re a beginner or a seasoned athlete, our app tailors your workout plan to your fitness level, goals, and preferences.' },
-            { title: 'Progress Tracking', desc: 'Track your progress with detailed metrics, from calories burned to muscle gain, all in one place.' },
-            { title: 'Join the Community', desc: 'Connect with fitness enthusiasts worldwide, share tips, motivate each other, and stay committed together.' },
-            { title: 'Elite Trainer Access', desc: 'Get access to exclusive workout plans and tips from elite trainers who guide you every step of the way.' },
-            { title: 'Stay Motivated', desc: 'Daily reminders, challenges, and achievements keep you motivated to reach your fitness goals.' },
-            { title: 'Easy to Use', desc: 'Simple, intuitive design ensures that you can focus on your workouts without any distractions.' }
+            { title: 'Personalized Workout Plans', desc: 'Our app creates customized workout plans that align with your fitness level, goals, and preferences – perfect for both beginners and seasoned athletes.' },
+            { title: 'Progress Tracking', desc: 'Monitor your fitness journey with detailed metrics like calories burned, muscle gain, and more – all conveniently located in one place.' },
+            { title: 'Join the Community', desc: 'Engage with a global fitness community. Share tips, motivate each other, and stay on track with group challenges.' },
+            { title: 'Elite Trainer Access', desc: 'Gain insights and exclusive workout plans from top-tier trainers who guide you with expert tips and advice.' },
+            { title: 'Stay Motivated', desc: 'Daily challenges, reminders, and achievements to help you stay focused and motivated towards your fitness goals.' },
+            { title: 'Easy to Use', desc: 'Our intuitive design allows you to effortlessly navigate the app and concentrate solely on your workouts.' }
           ].map((item, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-lg p-6 transition-transform duration-300 hover:scale-105">
-              <h3 className="text-2xl font-semibold text-zinc-950 mb-4">{item.title}</h3>
-              <p className="text-base text-secondary-gray">{item.desc}</p>
+            <div key={index} className="bg-white rounded-xl shadow-xl p-8 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+                {item.title}
+              </h3>
+              <p className="text-base text-gray-600 leading-relaxed">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>
