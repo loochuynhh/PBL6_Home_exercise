@@ -65,12 +65,19 @@ const WorkoutDetailsPage = () => {
     setOverlayTitle("");
   };
 
+  const sortedExercisePlan = [...exercisePlan].sort((a, b) => {
+    if (a.datePlan.dateOrder === b.datePlan.dateOrder) {
+      return a.datePlan.time.localeCompare(b.datePlan.time);
+    }
+    return a.datePlan.dateOrder - b.datePlan.dateOrder; 
+  });
+
   const indexOfLastItem = currentPage * itemsPerPage;
-  const currentItems = exercisePlan.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
+  const currentItems = sortedExercisePlan.slice(indexOfLastItem - itemsPerPage, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const totalPages = Math.ceil(exercisePlan.length / itemsPerPage);
+  const totalPages = Math.ceil(sortedExercisePlan.length / itemsPerPage);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
